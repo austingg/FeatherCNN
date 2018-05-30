@@ -13,10 +13,24 @@
 //specific language governing permissions and limitations under the License.
 
 #pragma once
-#include <stdlib.h>
 
-void matrixTranspose(float* array, size_t m, size_t n, float *buffer);
-void fully_connected_inference_direct(const int input_size, const int output_size, const float *x, const float *y, float *z, const int num_threads);
-void fully_connected_transpose_inference_neon8(const int input_size, const int output_size, const float *x, const float *y, float *z, const int num_threads);
-void fully_connected_inference_direct_BiasReLU(int input_size, int output_size, float *x, float *y, float *z, float* biasArr, int num_threads);
-void fully_connected_transpose_inference_neon8_BiasReLU(int input_size, int output_size, float *x, float *y, float *z, float* biasArr, int num_threads);
+#include "../feather_simple_generated.h"
+#include "../layer.h"
+
+namespace feather
+{
+class PReluLayer : public Layer
+{
+    public:
+        PReluLayer(const LayerParameter* layer_param, const RuntimeParameter<float>* rt_param)
+            : Layer(layer_param, rt_param)
+        {
+            shared = this->_weight_blobs[0]->data_size() > 1 ? false : true;
+            slope_data = this->_weight_blobs[0]->data();
+        }
+        int Forward();
+    protected:
+        bool shared;
+        float *slope_data;
+};
+};

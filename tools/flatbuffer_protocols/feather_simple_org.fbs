@@ -237,7 +237,7 @@ table PowerParameter {
 }
 
 table PReLUParameter {
-  slope_size:uint;
+  channel_shared:bool;
 }
 
 table RecurrentParameter {
@@ -296,5 +296,6 @@ table BlobProto {
   height:int;
   width:int;
 }
+
 
 root_type NetParameter;

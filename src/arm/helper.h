@@ -13,10 +13,30 @@
 //specific language governing permissions and limitations under the License.
 
 #pragma once
-#include <stdlib.h>
 
-void matrixTranspose(float* array, size_t m, size_t n, float *buffer);
-void fully_connected_inference_direct(const int input_size, const int output_size, const float *x, const float *y, float *z, const int num_threads);
-void fully_connected_transpose_inference_neon8(const int input_size, const int output_size, const float *x, const float *y, float *z, const int num_threads);
-void fully_connected_inference_direct_BiasReLU(int input_size, int output_size, float *x, float *y, float *z, float* biasArr, int num_threads);
-void fully_connected_transpose_inference_neon8_BiasReLU(int input_size, int output_size, float *x, float *y, float *z, float* biasArr, int num_threads);
+#include <arm_neon.h>
+
+void print_vec2(float32x4_t* vp);
+void print_vec3(float32x4_t* vp);
+void print_vec(float32x4_t* vp, const char* comment);
+void print_vec(float32x4_t* vp);
+void print_arr(float* vp);
+void print_floats(const float* arr, const int len);
+
+void print_floats(const float* arr, const int dimX, const int dimY);
+
+void diff(float* arr1, float* arr2, int len);
+void diff(float* arr1, float* arr2, int M, int N);
+
+#include <time.h>
+class Timer
+{
+    public:
+        Timer() {}
+        virtual ~Timer() {}
+        void startBench();
+        void endBench(const char *commets);
+        void endBench(const char *commets, double fold);
+    private:
+        timespec start, stop;
+};
